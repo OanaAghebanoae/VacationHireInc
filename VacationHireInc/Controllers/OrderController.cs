@@ -25,9 +25,24 @@ namespace VacationHireInc.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreateEditOrderRequest request)
+        public async Task<IActionResult> Create([FromBody]CreateOrderRequest request)
         {
             var result = await _orderService.Create(request);
+            return Ok(result);
+        }
+
+        [HttpPatch, Route("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody]UpdateOrderRequest request)
+        {
+            var order = await _orderService.GetById(id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            request.Id = order.Id;
+            var result = await _orderService.Update(request);
             return Ok(result);
         }
     }

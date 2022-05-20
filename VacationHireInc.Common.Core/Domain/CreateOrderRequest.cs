@@ -2,9 +2,9 @@
 
 namespace VacationHireInc.Core.Domain
 {
-    public class CreateEditOrderRequest
+    public class CreateOrderRequest
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public int CustomerId { get; set; }
         public int RentablePropertyId { get; set; }
         public DateTime RentStartDate { get; set; }
@@ -13,7 +13,7 @@ namespace VacationHireInc.Core.Domain
         public string? DamageDetails { get; set; }
         public bool TankFilledUp { get; set; }
         public decimal PriceUnit { get; set; }
-        public string PriceCurrency { get; set; }
+        public string? PriceCurrency { get; set; }
 
         public Order Create()
         {
@@ -27,7 +27,7 @@ namespace VacationHireInc.Core.Domain
                 DamageDetails = DamageDetails,
                 TankFilledUp = TankFilledUp,
                 PriceUnit = PriceUnit,
-                PriceCurrency = PriceCurrency
+                PriceCurrency = string.IsNullOrEmpty(PriceCurrency) ? string.Empty : PriceCurrency
             };
         }
     }

@@ -5,8 +5,9 @@ namespace VacationHireInc.Core.Api
 {
     public interface IOrderService
     {
-        Task<bool> Create(CreateEditOrderRequest order);
+        Task<bool> Create(CreateOrderRequest order);
         Task<IEnumerable<Order>> Get();
-        Task Update(CreateEditOrderRequest order);
+        Task<Order> GetById(int id);
+        Task<bool> Update(UpdateOrderRequest order);
     }
 }

@@ -28,9 +28,17 @@ namespace VacationHireInc.Repository
                 .ToListAsync();
         }
 
-        public Task Update(Order order)
+        public async Task<Order> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Orders
+                .Include(c => c.Customer)
+                .Include(p => p.RentableProperty)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task Update(Order order)
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

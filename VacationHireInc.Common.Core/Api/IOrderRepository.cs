@@ -6,6 +6,7 @@ namespace VacationHireInc.Core.Api
     {
         Task Create(Order order);
         Task<IEnumerable<Order>> Get();
+        Task<Order> GetById(int id);
         Task Update(Order order);
     }
 }
