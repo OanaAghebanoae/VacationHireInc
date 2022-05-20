@@ -11,7 +11,7 @@ namespace VacationHireInc.Data.Configurations
             builder.ToTable(nameof(RentableProperty));
 
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Type).WithMany().HasForeignKey(x => x.TypeId).OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(x => x.Type).WithMany().HasForeignKey(x => x.TypeId);
         }
     }
 }

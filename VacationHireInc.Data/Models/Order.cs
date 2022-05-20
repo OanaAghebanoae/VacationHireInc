@@ -24,7 +24,7 @@ namespace VacationHireInc.Data.Models
 
         public bool DamagePresented { get; set; }
 
-        public string DamageDetails { get; set; }
+        public string? DamageDetails { get; set; }
 
         public bool TankFilledUp { get; set; }
 
