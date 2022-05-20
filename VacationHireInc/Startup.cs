@@ -1,4 +1,7 @@
-﻿namespace VacationHireInc.API
+﻿using Microsoft.EntityFrameworkCore;
+using VacationHireInc.Data;
+
+namespace VacationHireInc.API
 {
     public class Startup
     {
@@ -23,7 +26,7 @@
             services.AddHttpContextAccessor();
             //services.AddApplicationServices();
             //services.AddApplicationRepositories();
-            //services.AddVHIDbContext(Configuration);
+            services.AddDbContext<VacationHireIncContext>(x => x.UseSqlServer(Configuration.GetConnectionString("Main")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHttpContextAccessor accessor)
