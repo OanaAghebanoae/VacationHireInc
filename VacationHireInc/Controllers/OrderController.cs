@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using VacationHireInc.Core;
 
 namespace VacationHireInc.API.Controllers
 {
@@ -7,16 +8,19 @@ namespace VacationHireInc.API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly ILogger<OrderController> _logger;
+        private readonly IOrderService _orderService;
 
-        public OrderController(ILogger<OrderController> logger)
+        public OrderController(ILogger<OrderController> logger, IOrderService orderService)
         {
             _logger = logger;
+            _orderService = orderService;
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new[] { "a1", "a2", "a3" };
+            return Ok();
+            //var orders = await _orderService.Get();
         }
     }
 }
