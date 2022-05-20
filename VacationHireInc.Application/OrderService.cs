@@ -17,9 +17,9 @@ namespace VacationHireInc.Application
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Order>> Get()
+        public async Task<IEnumerable<Order>> Get()
         {
-            throw new NotImplementedException();
+            return await _orderRepository.Get();
         }
 
         public Task Update(Order order)

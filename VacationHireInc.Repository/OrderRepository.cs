@@ -1,4 +1,5 @@
-﻿using VacationHireInc.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using VacationHireInc.Core;
 using VacationHireInc.Data;
 using VacationHireInc.Data.Models;
 
@@ -18,9 +19,12 @@ namespace VacationHireInc.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Order>> Get()
+        public async Task<IEnumerable<Order>> Get()
         {
-            throw new NotImplementedException();
+            return await _context.Orders
+                .Include(c => c.Customer)
+                .Include(p => p.RentableProperty)
+                .ToListAsync();
         }
 
         public Task Update(Order order)

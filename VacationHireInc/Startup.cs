@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VacationHireInc.Application;
+using VacationHireInc.Core;
 using VacationHireInc.Data;
+using VacationHireInc.Repository;
 
 namespace VacationHireInc.API
 {
@@ -27,6 +30,9 @@ namespace VacationHireInc.API
             //services.AddApplicationServices();
             //services.AddApplicationRepositories();
             services.AddDbContext<VacationHireIncContext>(x => x.UseSqlServer(Configuration.GetConnectionString("Main")));
+
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHttpContextAccessor accessor)

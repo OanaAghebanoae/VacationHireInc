@@ -19,8 +19,8 @@ namespace VacationHireInc.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok();
-            //var orders = await _orderService.Get();
+            var orders = await _orderService.Get();
+            return Ok(orders);
         }
     }
 }

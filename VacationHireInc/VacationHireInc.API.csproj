@@ -15,8 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VacationHireInc.Application\VacationHireInc.Application.csproj" />
     <ProjectReference Include="..\VacationHireInc.Common.Core\VacationHireInc.Core.csproj" />
     <ProjectReference Include="..\VacationHireInc.Data\VacationHireInc.Data.csproj" />
+    <ProjectReference Include="..\VacationHireInc.Repository\VacationHireInc.Repository.csproj" />
   </ItemGroup>
 
 </Project>
