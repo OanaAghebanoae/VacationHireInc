@@ -1,4 +1,5 @@
-﻿using VacationHireInc.Core.Api;
+﻿using VacationHireInc.Core;
+using VacationHireInc.Core.Api;
 using VacationHireInc.Core.Domain;
 using VacationHireInc.Data.Models;
 
@@ -7,10 +8,12 @@ namespace VacationHireInc.Application
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly ICurrencyLayerService _currencyLayerService;
 
-        public OrderService(IOrderRepository orderRepository)
+        public OrderService(IOrderRepository orderRepository, ICurrencyLayerService currencyLayerService)
         {
             _orderRepository = orderRepository;
+            _currencyLayerService = currencyLayerService;
         }
 
         public async Task<bool> Create(CreateOrderRequest order)
@@ -53,6 +56,12 @@ namespace VacationHireInc.Application
                 entity.PriceUnit = order.PriceUnit.HasValue ? order.PriceUnit.Value : entity.PriceUnit;
                 entity.PriceCurrency = string.IsNullOrEmpty(order.PriceCurrency) ? entity.PriceCurrency : order.PriceCurrency;
 
+                var daysOfRental = CalculateDaysOfRental(entity);
+                //supposing all rentable products cost 100 RON per day
+                entity.PriceUnit = !string.IsNullOrEmpty(entity.PriceCurrency)
+                    ? await _currencyLayerService.Convert("RON", entity.PriceCurrency, daysOfRental * 100) 
+                    : entity.PriceUnit;
+                
                 await _orderRepository.Update(entity);
 
                 return true;
@@ -61,6 +70,16 @@ namespace VacationHireInc.Application
             {
                 return false;
             }
+        }
+
+        private int CalculateDaysOfRental(Order order)
+        {
+            if (order.RentStartDate.HasValue && order.RentEndDate.HasValue)
+            {
+                return (int)(order.RentEndDate.Value - order.RentStartDate.Value).Days;
+            }
+
+            return 0;
         }
     }
 }

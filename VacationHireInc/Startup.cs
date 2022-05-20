@@ -28,12 +28,11 @@ namespace VacationHireInc.API
             });
             services.AddHttpClient();
             services.AddHttpContextAccessor();
-            //services.AddApplicationServices();
-            //services.AddApplicationRepositories();
             services.AddDbContext<VacationHireIncContext>(x => x.UseSqlServer(Configuration.GetConnectionString("Main")));
 
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<ICurrencyLayerService, CurrencyLayerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHttpContextAccessor accessor)
