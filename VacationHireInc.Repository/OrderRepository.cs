@@ -1,4 +1,5 @@
-﻿using VacationHireInc.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using VacationHireInc.Core.Api;
 using VacationHireInc.Data;
 using VacationHireInc.Data.Models;
 
@@ -13,19 +14,31 @@ namespace VacationHireInc.Repository
             _context = context;
         }
 
-        public Task Create(Order order)
+        public async Task Create(Order order)
         {
-            throw new NotImplementedException();
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Order>> Get()
+        public async Task<IEnumerable<Order>> Get()
         {
-            throw new NotImplementedException();
+            return await _context.Orders
+                .Include(c => c.Customer)
+                .Include(p => p.RentableProperty)
+                .ToListAsync();
         }
 
-        public Task Update(Order order)
+        public async Task<Order> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Orders
+                .Include(c => c.Customer)
+                .Include(p => p.RentableProperty)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task Update(Order order)
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

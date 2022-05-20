@@ -1,4 +1,5 @@
-﻿using VacationHireInc.Core;
+﻿using VacationHireInc.Core.Api;
+using VacationHireInc.Core.Domain;
 using VacationHireInc.Data.Models;
 
 namespace VacationHireInc.Application
@@ -12,19 +13,54 @@ namespace VacationHireInc.Application
             _orderRepository = orderRepository;
         }
 
-        public Task Create(Order order)
+        public async Task<bool> Create(CreateOrderRequest order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = order.Create();
+                await _orderRepository.Create(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public Task<IEnumerable<Order>> Get()
+        public async Task<IEnumerable<Order>> Get()
         {
-            throw new NotImplementedException();
+            return await _orderRepository.Get();
         }
 
-        public Task Update(Order order)
+        public async Task<Order> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _orderRepository.GetById(id);
+        }
+
+        public async Task<bool> Update(UpdateOrderRequest order)
+        {
+            try
+            {
+                var entity = await GetById(order.Id);
+
+                entity.CustomerId = order.CustomerId.HasValue ? order.CustomerId.Value : entity.CustomerId;
+                entity.RentablePropertyId = order.RentablePropertyId.HasValue ? order.RentablePropertyId.Value : entity.RentablePropertyId;
+                entity.RentStartDate = order.RentStartDate.HasValue ? order.RentStartDate.Value : entity.RentStartDate;
+                entity.RentEndDate = order.RentEndDate.HasValue ? order.RentEndDate.Value : entity.RentEndDate;
+                entity.DamagePresented = order.DamagePresented.HasValue ? order.DamagePresented.Value : entity.DamagePresented;
+                entity.DamageDetails = string.IsNullOrEmpty(order.DamageDetails) ? entity.DamageDetails : order.DamageDetails;
+                entity.TankFilledUp = order.TankFilledUp.HasValue ? order.TankFilledUp.Value : entity.TankFilledUp;
+                entity.PriceUnit = order.PriceUnit.HasValue ? order.PriceUnit.Value : entity.PriceUnit;
+                entity.PriceCurrency = string.IsNullOrEmpty(order.PriceCurrency) ? entity.PriceCurrency : order.PriceCurrency;
+
+                await _orderRepository.Update(entity);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
