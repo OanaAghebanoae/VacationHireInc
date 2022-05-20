@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VacationHireInc.Application;
 using VacationHireInc.Core;
+using VacationHireInc.Core.Api;
 using VacationHireInc.Data;
 using VacationHireInc.Repository;
 

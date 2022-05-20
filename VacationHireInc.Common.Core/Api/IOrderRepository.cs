@@ -1,6 +1,6 @@
 ﻿using VacationHireInc.Data.Models;
 
-namespace VacationHireInc.Core
+namespace VacationHireInc.Core.Api
 {
     public interface IOrderRepository
     {

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using VacationHireInc.Core;
+using VacationHireInc.Core.Api;
+using VacationHireInc.Core.Domain;
 
 namespace VacationHireInc.API.Controllers
 {
@@ -21,6 +22,13 @@ namespace VacationHireInc.API.Controllers
         {
             var orders = await _orderService.Get();
             return Ok(orders);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]CreateEditOrderRequest request)
+        {
+            var result = await _orderService.Create(request);
+            return Ok(result);
         }
     }
 }

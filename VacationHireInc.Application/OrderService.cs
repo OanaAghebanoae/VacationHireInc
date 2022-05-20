@@ -1,4 +1,5 @@
-﻿using VacationHireInc.Core;
+﻿using VacationHireInc.Core.Api;
+using VacationHireInc.Core.Domain;
 using VacationHireInc.Data.Models;
 
 namespace VacationHireInc.Application
@@ -12,9 +13,18 @@ namespace VacationHireInc.Application
             _orderRepository = orderRepository;
         }
 
-        public Task Create(Order order)
+        public async Task<bool> Create(CreateEditOrderRequest order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = order.Create();
+                await _orderRepository.Create(entity);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public async Task<IEnumerable<Order>> Get()
@@ -22,7 +32,7 @@ namespace VacationHireInc.Application
             return await _orderRepository.Get();
         }
 
-        public Task Update(Order order)
+        public Task Update(CreateEditOrderRequest order)
         {
             throw new NotImplementedException();
         }
